@@ -1,0 +1,23 @@
+{
+  "name": "03-using-discordjs",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "register": "node src/register.commands.js",
+    "dev": "nodemon main",
+    "event": "node src/handlers/eventHandler.js",
+    "localcmd": "node src/utils/getLocalCommands.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  }
+}
