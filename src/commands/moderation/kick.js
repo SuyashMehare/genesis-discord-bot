@@ -13,13 +13,6 @@ import {
      * @param {import('discord.js').Interaction} interaction 
      */
     callback: async (client, interaction) => {
-      /**
-       * Check if interction is chatInput
-       * {user,reason} : options
-       * checks: notServerOwner, permission Should higher
-       * guild.member.ban
-       * reply
-       */
       if (!interaction.isChatInputCommand()) {
         return;
       }
@@ -35,7 +28,7 @@ import {
       }
 
       if(targetUser.id === interaction.guild.ownerId){
-        return interaction.editReply("You can not ban owner of the server");
+        return interaction.editReply("You can not kick owner of the server");
       }
 
       const currentUserRolePosition = interaction.member.roles.highest.position;
@@ -45,7 +38,7 @@ import {
       
       if (targetUserRolePosition >= currentUserRolePosition) {
         return await interaction.editReply(
-          "You can't ban that user because they have the same/higher role than you.."
+          "You can't kick that user because they have the same/higher role than you.."
         );
       }
       
@@ -53,14 +46,14 @@ import {
         console.log('executed second');
         
         return await interaction.editReply(
-          "I can't ban that user because they have the same/higher role than me."
+          "I can't kick that user because they have the same/higher role than me."
         );
       }
 
       try {
-        const ban = await targetUser.ban({reason})
+        const kick = await targetUser.kick(reason);
         const msg = await interaction.editReply(
-           `User ${targetUser} was banned\nReason: ${reason}`
+           `User ${targetUser} was kicked\nReason: ${reason}`
         )
 
       } catch (error) {
@@ -68,20 +61,20 @@ import {
       }
     },
 
-    name: 'ban',
-    description: 'Bans a member!!!',
+    name: 'kick',
+    description: 'Kick a member!!!',
     // devOnly: Boolean,
     // testOnly: Boolean,
     options: [
       {
         name: 'target-user',
-        description: 'The user to ban.',
+        description: 'Kick the guild user',
         required: true,
         type: ApplicationCommandOptionType.Mentionable,
       },
       {
         name: 'reason',
-        description: 'The reason for banning.',
+        description: 'The reason for kicking.',
         type: ApplicationCommandOptionType.String,
       },
     ],

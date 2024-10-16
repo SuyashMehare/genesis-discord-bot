@@ -3,6 +3,7 @@ import { configDotenv } from "dotenv";
 configDotenv()
 
 import eventHandler from "./handlers/eventHandler.js";
+import mongoose from "mongoose";
 
 const client = new Client({
     intents:[
@@ -10,10 +11,15 @@ const client = new Client({
         IntentsBitField.Flags.GuildMembers,
         IntentsBitField.Flags.GuildMessages,
         IntentsBitField.Flags.MessageContent,
-        
+        IntentsBitField.Flags.GuildPresences,
     ]
 });
 
-eventHandler(client)
+(async () => {
+    await mongoose.connect(process.env.MONGO_URI)
+    console.log("db connected successfully...");
+    
+    client.login(process.env.TOKEN)
+})()
 
-client.login(process.env.TOKEN)
+eventHandler(client)
